@@ -12,16 +12,16 @@
             <column name="email" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="name" type="varchar(50)">
+            <column name="password_hash" type="varchar(30)">
                 <constraints nullable="false" />
             </column>
-            <column name="wish" type="varchar(255)">
+            <column name="user_salt" type="varchar(10)">
+                <constraints nullable="false" />
+            </column>
+            <column name="surname" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="recipient" type="bigint">
-                <constraints nullable="true" />
-            </column>
-            <column name="group_id" type="bigint">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
         </createTable>
@@ -29,5 +29,109 @@
 
     <changeSet id="ssd-2" author="kamilya">
         <createSequence sequenceName="sequence_user" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="ssd-3" author="kamilya">
+        <createTable tableName="role">
+            <column name="id" type="bigint" >
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ssd-4" author="kamilya">
+        <createSequence sequenceName="sequence_role" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="ssd-5" author="kamilya">
+        <createTable tableName="user_to_role">
+            <column name="id" type="bigint" >
+                <constraints primaryKey="true" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ssd-6" author="kamilya">
+        <createSequence sequenceName="sequence_user_to_role" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="ssd-7" author="kamilya">
+        <addForeignKeyConstraint constraintName="fk_user_to_role"
+                                 baseTableName="user_to_role"
+                                 baseColumnNames="user_id"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="ssd-8" author="kamilya">
+        <addForeignKeyConstraint constraintName="fk_role_to_user"
+                                 baseTableName="user_to_role"
+                                 baseColumnNames="role_id"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="ssd-9" author="kamilya">
+        <createTable tableName="permission">
+            <column name="id" type="bigint" >
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ssd-10" author="kamilya">
+        <createSequence sequenceName="sequence_permission" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="ssd-11" author="kamilya">
+        <createTable tableName="role_to_permission">
+            <column name="id" type="bigint" >
+                <constraints primaryKey="true" />
+            </column>
+            <column name="permission_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ssd-12" author="kamilya">
+        <createSequence sequenceName="sequence_role_to_permission" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="ssd-13" author="kamilya">
+        <addForeignKeyConstraint constraintName="fk_role_to_permission"
+                                 baseTableName="role_to_permission"
+                                 baseColumnNames="role_id"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="ssd-14" author="kamilya">
+        <addForeignKeyConstraint constraintName="fk_permission_to_role"
+                                 baseTableName="role_to_permission"
+                                 baseColumnNames="permission_id"
+                                 referencedTableName="permission"
+                                 referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>
