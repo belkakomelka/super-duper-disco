@@ -10,7 +10,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="email" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="password_hash" type="varchar(30)">
                 <constraints nullable="false" />
@@ -40,7 +40,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="description" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
         </createTable>
     </changeSet>
@@ -92,7 +92,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="description" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
         </createTable>
     </changeSet>
@@ -132,6 +132,61 @@
                                  baseTableName="role_to_permission"
                                  baseColumnNames="permission_id"
                                  referencedTableName="permission"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="ssd-15" author="kamilya">
+        <createTable tableName="product">
+            <column name="id" type="bigint" >
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="text">
+                <constraints nullable="true" />
+            </column>
+            <column name="short_description" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ssd-16" author="kamilya">
+        <createSequence sequenceName="sequence_product" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="ssd-17" author="kamilya">
+        <createTable tableName="user_to_products">
+            <column name="id" type="bigint" >
+                <constraints primaryKey="true" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="ssd-18" author="kamilya">
+        <createSequence sequenceName="sequence_user_to_products" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="ssd-13" author="kamilya">
+        <addForeignKeyConstraint constraintName="fk_user_to_products"
+                                 baseTableName="user_to_products"
+                                 baseColumnNames="user_id"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="ssd-14" author="kamilya">
+        <addForeignKeyConstraint constraintName="fk_products_to_user"
+                                 baseTableName="user_to_products"
+                                 baseColumnNames="product_id"
+                                 referencedTableName="product"
                                  referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>
