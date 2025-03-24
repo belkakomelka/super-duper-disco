@@ -1,1 +1,5 @@
-com/example/demo/DemoApplication.class
+com/example/demo/service/AddUserService.class
+com/example/demo/database/entity/User$UserBuilder.class
+com/example/demo/database/entity/Role$RoleBuilder.class
+com/example/demo/database/entity/UserToRole$UserToRoleBuilder.class
+com/example/demo/dto/UserRegistrationDto$UserRegistrationDtoBuilder.class

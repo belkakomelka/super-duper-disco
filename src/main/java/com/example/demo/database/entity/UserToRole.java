@@ -20,11 +20,11 @@ public class UserToRole {
     @SequenceGenerator(name = "sequence_role", sequenceName = "sequence_role", allocationSize = 1)
     Long id;
 
-    @OneToMany(mappedBy = "user_to_role")
-    @Column(name = "role_id")
-    List<Role> roleList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    Role role;
 
-    @OneToMany(mappedBy = "user_to_role")
-    @Column(name = "user_id")
-    List<User> userList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    User user;
 }

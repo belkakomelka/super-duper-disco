@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "role")
@@ -25,7 +28,7 @@ public class Role {
     @Column(name = "description")
     String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    UserToRole roleRelationToUser;
+    @Builder.Default
+    @OneToMany(mappedBy = "role")
+    Set<UserToRole> roleRelationToUser = new HashSet<>();
 }

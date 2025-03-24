@@ -1,1 +1,9 @@
-/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/DemoApplication.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/ConstructorApplication.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/config/ObjectMapperConfig.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/controller/UserController.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/database/entity/Role.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/database/entity/User.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/database/entity/UserToRole.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/database/repository/UserRepository.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/dto/UserRegistrationDto.java
+/Users/kamila/Desktop/super-duper-disco/src/main/java/com/example/demo/service/AddUserService.java

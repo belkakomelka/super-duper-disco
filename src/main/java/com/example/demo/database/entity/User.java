@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @AllArgsConstructor
@@ -14,8 +17,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "sequence_user")
-    @SequenceGenerator(name = "sequence_user", sequenceName = "sequence_user", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_users")
+    @SequenceGenerator(
+            name = "sequence_users",
+            sequenceName = "sequence_users",
+            allocationSize = 1
+    )
     Long id;
 
     @Column(name = "username", nullable = false)
@@ -36,7 +43,7 @@ public class User {
     @Column(name = "surname")
     String surname;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    UserToRole userRelationToRole;
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    Set<UserToRole> userRelationToRole = new HashSet<>();
 }

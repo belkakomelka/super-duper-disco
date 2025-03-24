@@ -5,28 +5,33 @@ import com.example.demo.database.repository.UserRepository;
 import com.example.demo.dto.UserRegistrationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
+import java.util.zip.CRC32;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AddUserService {
+
     private final UserRepository userRepository;
+
     private final ObjectMapper objectMapping;
 
-    public AddUserService(UserRepository userRepository, ObjectMapper objectMapping) {
-        this.userRepository = userRepository;
-        this.objectMapping = objectMapping;
-    }
-
+    @Transactional
     public ResponseEntity<String> addUser(UserRegistrationDto userRegistrationDto){ // todo мб индекс на email? +  valid
         try {
             log.info("Принят запрос для сохранения нового участника " + objectMapping.writeValueAsString(userRegistrationDto));
@@ -40,12 +45,14 @@ public class AddUserService {
                 log.info("Пользователь отсутствует");
                 String salt = generateSalt();
                 user = User.builder()
+                        .username(userRegistrationDto.getUsername())
                         .email(userRegistrationDto.getEmail())
                         .name(userRegistrationDto.getName())
                         .surname(userRegistrationDto.getSurname())
                         .userSalt(salt)
                         .passwordHash(hashPassword(userRegistrationDto.getPassword(), salt))
                         .build();
+                userRepository.save(user);
             }
             return new ResponseEntity<>(user.getId().toString(), HttpStatus.OK);
         } catch (JsonProcessingException | RuntimeException | NoSuchAlgorithmException e) {
@@ -57,7 +64,7 @@ public class AddUserService {
 
     private static String generateSalt() {
         SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
+        byte[] salt = new byte[2];
         random.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
     }
@@ -66,7 +73,10 @@ public class AddUserService {
     public static String hashPassword(String password, String salt) throws NoSuchAlgorithmException {
         String saltedPassword = password + salt;
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hashBytes = digest.digest(saltedPassword.getBytes());
-        return Base64.getEncoder().encodeToString(hashBytes);
+        byte[] hashBytes = digest.digest(saltedPassword.getBytes(StandardCharsets.UTF_8));
+
+        // Вариант 1: Обрезание до 30 символов
+        String fullHash = Base64.getEncoder().encodeToString(hashBytes);
+        return fullHash.substring(0, Math.min(30, fullHash.length()));
     }
 }

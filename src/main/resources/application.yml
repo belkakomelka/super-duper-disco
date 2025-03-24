@@ -10,7 +10,7 @@ spring:
     initialization-mode: always
     continue-on-error: true
     hikari:
-      schema: super-duper-disco
+      schema: super_duper_disco
   liquibase:
     change-log: classpath:db/changelog/changelog.xml
   jpa:
