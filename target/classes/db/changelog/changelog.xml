@@ -2,7 +2,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="ssd-1" author="kamilya">
-        <createTable tableName="user">
+        <createTable tableName="users">
             <column name="id" type="bigint" >
                 <constraints primaryKey="true" />
             </column>
@@ -28,7 +28,7 @@
     </changeSet>
 
     <changeSet id="ssd-2" author="kamilya">
-        <createSequence sequenceName="sequence_user" startValue="1"/>
+        <createSequence sequenceName="sequence_users" startValue="1"/>
     </changeSet>
 
     <changeSet id="ssd-3" author="kamilya">
@@ -71,7 +71,7 @@
         <addForeignKeyConstraint constraintName="fk_user_to_role"
                                  baseTableName="user_to_role"
                                  baseColumnNames="user_id"
-                                 referencedTableName="user"
+                                 referencedTableName="users"
                                  referencedColumnNames="id"/>
     </changeSet>
 
@@ -174,15 +174,15 @@
         <createSequence sequenceName="sequence_user_to_products" startValue="1"/>
     </changeSet>
 
-    <changeSet id="ssd-13" author="kamilya">
+    <changeSet id="ssd-19" author="kamilya">
         <addForeignKeyConstraint constraintName="fk_user_to_products"
                                  baseTableName="user_to_products"
                                  baseColumnNames="user_id"
-                                 referencedTableName="user"
+                                 referencedTableName="users"
                                  referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="ssd-14" author="kamilya">
+    <changeSet id="ssd-20" author="kamilya">
         <addForeignKeyConstraint constraintName="fk_products_to_user"
                                  baseTableName="user_to_products"
                                  baseColumnNames="product_id"

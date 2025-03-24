@@ -2,13 +2,12 @@ package com.example.demo.service;
 
 import com.example.demo.database.entity.User;
 import com.example.demo.database.repository.UserRepository;
-import com.example.demo.dto.UserRegistrationDto;
+import com.example.demo.dto.UserRegistrationRq;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,10 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
-import java.util.zip.CRC32;
 
 @Service
 @Slf4j
@@ -32,25 +29,25 @@ public class AddUserService {
     private final ObjectMapper objectMapping;
 
     @Transactional
-    public ResponseEntity<String> addUser(UserRegistrationDto userRegistrationDto){ // todo мб индекс на email? +  valid
+    public ResponseEntity<String> addUser(UserRegistrationRq userRegistrationRq){ // todo мб индекс на email? +  valid
         try {
-            log.info("Принят запрос для сохранения нового участника " + objectMapping.writeValueAsString(userRegistrationDto));
+            log.info("Принят запрос для сохранения нового участника " + objectMapping.writeValueAsString(userRegistrationRq));
 
-            Optional<User> userOptional = userRepository.findUserByEmail(userRegistrationDto.getEmail());
+            Optional<User> userOptional = userRepository.findUserByEmail(userRegistrationRq.getEmail());
             User user;
             if (userOptional.isPresent()){
                 user = userOptional.get();
-                log.info("Данный пользователь уже зарегистрирован в системе " + userRegistrationDto.getEmail());
+                log.info("Данный пользователь уже зарегистрирован в системе " + userRegistrationRq.getEmail());
             } else{
                 log.info("Пользователь отсутствует");
                 String salt = generateSalt();
                 user = User.builder()
-                        .username(userRegistrationDto.getUsername())
-                        .email(userRegistrationDto.getEmail())
-                        .name(userRegistrationDto.getName())
-                        .surname(userRegistrationDto.getSurname())
+                        .username(userRegistrationRq.getUsername())
+                        .email(userRegistrationRq.getEmail())
+                        .name(userRegistrationRq.getName())
+                        .surname(userRegistrationRq.getSurname())
                         .userSalt(salt)
-                        .passwordHash(hashPassword(userRegistrationDto.getPassword(), salt))
+                        .passwordHash(hashPassword(userRegistrationRq.getPassword(), salt))
                         .build();
                 userRepository.save(user);
             }
@@ -74,8 +71,6 @@ public class AddUserService {
         String saltedPassword = password + salt;
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hashBytes = digest.digest(saltedPassword.getBytes(StandardCharsets.UTF_8));
-
-        // Вариант 1: Обрезание до 30 символов
         String fullHash = Base64.getEncoder().encodeToString(hashBytes);
         return fullHash.substring(0, Math.min(30, fullHash.length()));
     }
