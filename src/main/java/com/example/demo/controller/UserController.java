@@ -26,10 +26,10 @@ public class UserController {
     }
 
 
-//    @GetMapping("/user/{id}")
-//    public ResponseEntity<String> getUser(@PathVariable("id") Long id) {
-//        return getUserInfoService.getUser(id);
-//    }
+    @GetMapping("/user/{id}")
+    public ResponseEntity<String> getUser(@PathVariable("id") Long id) {
+        return getUserInfoService.getUser(id);
+    }
 
 
 
