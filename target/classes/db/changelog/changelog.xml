@@ -173,6 +173,8 @@
             <column name="product_id" type="bigint">
                 <constraints nullable="false" />
             </column>
+            <column name="amount" type="bigint">
+            </column>
         </createTable>
     </changeSet>
 
