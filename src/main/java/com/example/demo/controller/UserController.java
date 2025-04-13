@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.UserRegistrationRq;
-import com.example.demo.service.AddUserService;
-import com.example.demo.service.GetUserInfoService;
+import com.example.demo.dto.user.UserRegistrationRq;
+import com.example.demo.service.user.AddUserService;
+import com.example.demo.service.user.GetUserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,16 @@ public class UserController {
     GetUserInfoService getUserInfoService;
 
     @PostMapping("/add-user")
-    public ResponseEntity<String> addUser(@RequestBody UserRegistrationRq userRegistrationRq) {
-        return addUserService.addUser(userRegistrationRq);
+    public ResponseEntity<String> addUser(@RequestBody UserRegistrationRq userRegistrationRq,
+                                          @RequestHeader String rqUid) {
+        return addUserService.addUser(userRegistrationRq, rqUid);
     }
 
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<String> getUser(@PathVariable("id") Long id) {
-        return getUserInfoService.getUser(id);
+    public ResponseEntity<String> getUser(@PathVariable("id") Long id,
+                                          @RequestHeader String rqUid) {
+        return getUserInfoService.getUser(id, rqUid);
     }
 
 

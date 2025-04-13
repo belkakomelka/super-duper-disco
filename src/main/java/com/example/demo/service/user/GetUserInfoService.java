@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.service.user;
 
 import com.example.demo.database.entity.User;
 import com.example.demo.database.repository.UserRepository;
@@ -23,7 +23,7 @@ public class GetUserInfoService {
     private final ObjectMapper objectMapping;
 
     @Transactional
-    public ResponseEntity<String> getUser(Long id){
+    public ResponseEntity<String> getUser(Long id, String rqUid){
         try {
             log.info("Принят запрос для получения информации о пользователе с id = " + id);
 

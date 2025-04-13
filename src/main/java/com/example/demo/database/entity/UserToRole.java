@@ -16,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 public class UserToRole {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "sequence_role")
-    @SequenceGenerator(name = "sequence_role", sequenceName = "sequence_role", allocationSize = 1)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "sequence_user_to_role")
+    @SequenceGenerator(name = "sequence_user_to_role", sequenceName = "sequence_user_to_role", allocationSize = 1)
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -141,12 +141,18 @@
                 <constraints primaryKey="true" />
             </column>
             <column name="name" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="description" type="text">
                 <constraints nullable="true" />
             </column>
+            <column name="price" type="numeric">
+                <constraints nullable="true" />
+            </column>
             <column name="short_description" type="varchar(500)">
+                <constraints nullable="true" />
+            </column>
+            <column name="link_to_photo" type="text">
                 <constraints nullable="true" />
             </column>
         </createTable>

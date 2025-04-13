@@ -46,4 +46,8 @@ public class User {
     @Builder.Default
     @OneToMany(mappedBy = "user")
     Set<UserToRole> userRelationToRole = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    Set<UserToProduct> userRelationToProduct = new HashSet<>();
 }
