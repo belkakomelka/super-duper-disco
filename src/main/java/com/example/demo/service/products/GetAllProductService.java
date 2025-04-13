@@ -54,6 +54,7 @@ public class GetAllProductService {
 
     private ListOfProductsRs.ProductRs mapToProductRs(Product product) {
         return ListOfProductsRs.ProductRs.builder()
+                .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .shortDescription(product.getShortDescription())

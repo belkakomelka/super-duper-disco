@@ -13,6 +13,8 @@ public class ListOfProductsRs {
     @Data
     @Builder
     public static class ProductRs{
+        private Long id;
+
         private String name;
 
         private String description;
